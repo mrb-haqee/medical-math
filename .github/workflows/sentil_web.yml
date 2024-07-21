@@ -1,0 +1,18 @@
+name: Hourly Request Test
+
+on:
+  schedule:
+    - cron: '0 * * * *' # Menjadwalkan job untuk berjalan setiap jam pada menit ke-0
+  workflow_dispatch: # Memungkinkan workflow untuk dipicu secara manual
+
+jobs:
+  test_request:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Send HTTP request
+        run: |
+          curl -X GET https://medical-math-php.onrender.com/
