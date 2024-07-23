@@ -1,4 +1,6 @@
 <?php
+
+
 $root = $_SERVER['DOCUMENT_ROOT'];
 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
@@ -18,14 +20,25 @@ try {
     $pdo = get_pdo();
 
     $routes = array(
+        // home
         "/" => $root . "/pages/home/home.php",
+
+        // auth
         "/auth" => $root . "/pages/auth/auth.php",
         "/auth_process" => $root . "/pages/auth/auth_process.php",
-        "/dashboard" => $root . "/pages/dashboard/dashboard.php",
-        "/icd10" => $root . "/pages/dashboard/get_icd10.php",
-        "/tabel_predict" => $root . "/pages/dashboard/tabel_predict.php",
-        "/save_predict" => $root . "/pages/dashboard/save_predict.php",
         "/logout" => $root . "/pages/dashboard/logout.php",
+
+        // dashboard
+        "/dashboard" => $root . "/pages/dashboard/dashboard.php",
+
+        // predict lungs
+        "/dashboard/lungs" => $root . "/pages/dashboard/paru/paru.php",
+        "/icd10" => $root . "/pages/dashboard/paru/get_icd10.php",
+        "/tabel_predict" => $root . "/pages/dashboard/paru/tabel_predict.php",
+        "/save_predict" => $root . "/pages/dashboard/paru/save_predict.php",
+
+        // predict jantung
+        "/dashboard/heart" => $root . "/pages/dashboard/jantung/jantung.php",
     );
 
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -40,3 +53,24 @@ try {
 } catch (Exception $e) {
     die("Database connection failed: \n" . $e->getMessage());
 }
+
+?>
+
+<script>
+    function autoReload() {
+        // Menggunakan Fetch API untuk melakukan polling ke server
+        fetch('/last-modified.php')
+            .then(response => response.json())
+            .then(data => {
+                // Membandingkan waktu terakhir modifikasi dengan waktu sekarang
+                if (data.lastModified > sessionStorage.getItem('lastModified')) {
+                    sessionStorage.setItem('lastModified', data.lastModified);
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // Memanggil autoReload setiap 2 detik
+    setInterval(autoReload, 2000);
+</script>

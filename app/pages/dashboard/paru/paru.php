@@ -57,19 +57,19 @@ include $root . "/pages/dashboard/routes_dashboard.php";
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link active" href="<?= $routes['dashboard']; ?>">
+                        <a class="nav-link" href="<?= $routes['dashboard']; ?>">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
                         <div class="sb-sidenav-menu-heading">artificial intelligence</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <a class="nav-link active" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="true" aria-controls="collapseLayouts">
                             <div class="sb-nav-link-icon"><i class="fas fa-brain"></i></div>
                             Machine Learning
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <div class="collapse show" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="<?= $routes['paru']; ?>">
+                                <a class="nav-link active" href="<?= $routes['paru']; ?>">
                                     <div class="sb-nav-link-icon"><i class="fas fa-lungs"></i></div>
                                     Predict Lungs
                                 </a>
@@ -100,59 +100,66 @@ include $root . "/pages/dashboard/routes_dashboard.php";
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Dashboard</h1>
+                    <h1 class="mt-4">Lungs Disease Prediction</h1>
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Lungs disease prediction</li>
                     </ol>
-                    <div class="row">
+                    <!-- Slide Upload -->
+                    <?php include 'temp_upload.php' ?>
 
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card border-dark mb-3" style="max-width: 18rem;">
-                                <img src="<?= $css_path . "/img.png" ?>" class="card-img-top" alt="...">
-                                <div class="card-body text-success text-dark mb-4">
-                                    <h5 class="card-title">Lungs disease prediction</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora sit culpa maxime,</p>
-                                </div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-dark stretched-link" href="<?= $routes['paru']; ?>">View Details</a>
-                                    <div class="small text-dark"><i class="fas fa-angle-right"></i></div>
+                    <!-- Slide Predict Result -->
+                    <?php include 'temp_predict.php' ?>
+                    <!-- <button class="btn btn-success me-4 save-predict">Save</button> -->
+
+                    <!-- Slide Table Predict -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <i class="fas fa-table me-1"></i>
+                            DataTable Predict
+                        </div>
+                        <div class="card-body">
+                            <div id="no-tabel" class="row text-center" style="display: none;">
+                                <div class="fs-6">
+                                    No table found
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card border-dark mb-3" style="max-width: 18rem;">
-                                <img src="<?= $css_path . "/img.png" ?>" class="card-img-top" alt="...">
-                                <div class="card-body text-success text-dark mb-4">
-                                    <h5 class="card-title">Hearth disease prediction</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora sit culpa maxime,</p>
+
+                            <div id="spin-laod-tabel" class="text-center">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Loading...</span>
                                 </div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-dark stretched-link" href="<?= $routes['jantung']; ?>">View Details</a>
-                                    <div class="small text-dark"><i class="fas fa-angle-right"></i></div>
-                                </div>
+
+                            </div>
+
+                            <div id="tabel-predict" class="table-responsive" style="max-height:500px; display: none;">
+                                <caption class="mb-1">
+                                    <span class="fw-bold">Probability : </span>
+                                    <span class="badge text-bg-danger">>0.7</span>
+                                    <span class="badge text-bg-warning">0.7~0.3</span>
+                                    <span class="badge text-bg-secondary">&lt;0.3</span>
+                                </caption>
+                                <table class="table caption-top table-striped table-hover table-bordered align-middle text-center">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 10%">User</th>
+                                            <th style="width: 10%">Image</th>
+                                            <th style="width: 30%">Predict</th>
+                                            <th style="width: 30%">Kode ICD10</th>
+                                            <th style="width: 20%">Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-predict" class="table-group-divider">
+
+                                    </tbody>
+                                    <tfoot>
+
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-md-6">
-                            <div class="card border-dark mb-3" style="max-width: 18rem;">
-                                <img src="<?= $css_path . "/img.png" ?>" class="card-img-top" alt="...">
-                                <div class="card-body text-success text-dark mb-4">
-                                    <h5 class="card-title">Body mass index prediction</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora sit culpa maxime,</p>
-                                </div>
-                                <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-dark stretched-link" href="<?= $routes['none']; ?>">View Details</a>
-                                    <div class="small text-dark"><i class="fas fa-angle-right"></i></div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
                     </div>
-
                 </div>
-
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">

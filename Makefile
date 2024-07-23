@@ -50,7 +50,7 @@ py-run:
 		python C:\Users\Lenovo\Desktop\devops\python\server\app.py
 
 php-run:
-		php -S 127.0.0.1:8000
+		php -S 127.0.0.1:8000 -t ./app/
 
 .PHONY: build push build-and-push
 

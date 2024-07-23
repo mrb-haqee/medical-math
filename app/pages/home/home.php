@@ -59,7 +59,7 @@ $root = "/public/home";
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo me-auto"><a href="/">LUNGSLAB</a></h1>
+      <h1 class="logo me-auto"><a href="/">MEDICAL MATH</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -81,7 +81,7 @@ $root = "/public/home";
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
     <div class="container">
-      <h1>Welcome to LUNGSLAB</h1>
+      <h1>Welcome to MEDICAL MATH</h1>
       <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit</h2>
       <a href="#about" class="btn-get-started scrollto">Get Started</a>
     </div>
