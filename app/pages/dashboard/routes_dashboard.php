@@ -1,8 +1,8 @@
 <?php
 
 $root = "/public/dashboard/";
-$js_path = "/pages/dashboard/js/";
-$css_path = "/pages/dashboard/css/";
+$js_path = "/pages/dashboard/src/js/";
+$css_path = "/pages/dashboard/src/css/";
 
 $routes = [
     "dashboard" => "/dashboard",

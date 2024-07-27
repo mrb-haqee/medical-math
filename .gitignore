@@ -1,3 +1,8 @@
-/python/model/models_paru/
+/python/labels
+/python/tokenizer.json
+/python/models/model_paru/model
+/python/models/model_jantung/diagnosa_utama
+/python/models/model_jantung/diagnosa_sekunder
+/python/models/model_jantung/obat
 .env
 test.php

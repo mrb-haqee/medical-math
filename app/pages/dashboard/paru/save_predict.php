@@ -5,7 +5,7 @@ $root = $_SERVER['DOCUMENT_ROOT'];
 require_once($root . '/helper/helper.php');
 require_once($root . '/helper/pdo.php');
 
-use function Helper\{get_env, feedback, get_session, get_pdo};
+use function Helper\{feedback, get_session, get_pdo};
 
 get_session();
 

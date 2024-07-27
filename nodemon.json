@@ -1,7 +1,0 @@
-{
-    "watch": [
-        "."
-    ],
-    "ext": "php,html,css,js",
-    "exec": "php -S localhost:8000 -t ./app/"
-}

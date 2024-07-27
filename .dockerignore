@@ -2,3 +2,5 @@
 .env
 Makefile
 python
+app/last-modified.php
+app/auto-reload.php

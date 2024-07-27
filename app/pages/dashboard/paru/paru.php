@@ -192,7 +192,7 @@ include $root . "/pages/dashboard/routes_dashboard.php";
             toastr.success("Hi, <?= $_SESSION['email'] ?>");
         })
     </script>
-    <script src="<?= $js_path ?>index.js"></script>
+    <script src="<?= $js_path ?>paru.js"></script>
 </body>
 
 </html>

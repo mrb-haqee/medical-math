@@ -1,5 +1,7 @@
 <?php
-
+// $_ENV['DB_CONFIG'] = 'do6DJ2xnvzm6fbuW9qVUa90wkJ27cZ3KsMG4m+jnIRZa2Y61Of63LoWQzzB3RD0i0P0+A5Uxy1LdPBkUeZGUjC89iNR9zSl/7YaamSmN+bMb636decJ8iv41i177xDKQDHtH09qAP5o2pzdxrRGBsulTgz5VbmzGXRFAxTeqF/9XQ0BdOC2d7hYmCg7rpZGy==';
+// $_ENV['PASS_ENCRYPT'] = 'mrb28';
+// $_ENV['DB_NAME'] = 'db_paru';
 
 $root = $_SERVER['DOCUMENT_ROOT'];
 
@@ -39,6 +41,12 @@ try {
 
         // predict jantung
         "/dashboard/heart" => $root . "/pages/dashboard/jantung/jantung.php",
+        "/dashboard/heart/summary" => $root . "/pages/dashboard/jantung/temp_summary.php",
+        "/dashboard/heart/predict" => $root . "/pages/dashboard/jantung/temp_predict.php",
+        "/dashboard/heart/predict" => $root . "/pages/dashboard/jantung/temp_predict.php",
+        "/dashboard/heart/save_predict" => $root . "/pages/dashboard/jantung/save_predict.php",
+        "/dashboard/heart/tabel_predict" => $root . "/pages/dashboard/jantung/tabel_predict.php",
+        "/dashboard/heart/modal" => $root . "/pages/dashboard/jantung/modal_jantung.php",
     );
 
     $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -53,24 +61,4 @@ try {
 } catch (Exception $e) {
     die("Database connection failed: \n" . $e->getMessage());
 }
-
-?>
-
-<script>
-    function autoReload() {
-        // Menggunakan Fetch API untuk melakukan polling ke server
-        fetch('/last-modified.php')
-            .then(response => response.json())
-            .then(data => {
-                // Membandingkan waktu terakhir modifikasi dengan waktu sekarang
-                if (data.lastModified > sessionStorage.getItem('lastModified')) {
-                    sessionStorage.setItem('lastModified', data.lastModified);
-                    location.reload();
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    }
-
-    // Memanggil autoReload setiap 2 detik
-    setInterval(autoReload, 2000);
-</script>
+// include "auto-reload.php";

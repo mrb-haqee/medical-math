@@ -6,7 +6,7 @@
                 Upload Image
             </div>
             <div class="card-body text-center">
-                <button id="upload" class="btn btn-primary">Upload Image</button>
+                <button id="upload" class="btn btn-secondary">Upload Image</button>
                 <!-- Hidden file input -->
                 <input type="file" id="fileInput" style="display: none;" accept="image/*">
             </div>

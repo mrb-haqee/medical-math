@@ -1,11 +1,41 @@
-from flask import Flask, request, jsonify
-import cv2, requests, io
-from flask_cors import CORS
-from PIL import Image
+import os
+
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+
 import numpy as np
+from PIL import Image
+from flask_cors import CORS
+import cv2, requests, io, json
+from flask import Flask, request, jsonify
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from sklearn.preprocessing import MultiLabelBinarizer
 
 app = Flask(__name__)
 CORS(app)
+
+URL_MODEL_PARU = "https://medical-math-model-paru.onrender.com/v1/models/paru"
+URL_MODEL_JANTUNG = "https://medical-math-model-jantung.onrender.com/v1/models"
+
+# Load the tokenizer word index from the JSON file
+with open("./tokenizer.json", "r") as f:
+    word_index = json.load(f)
+
+# Create a new tokenizer and set the word index
+tokenizer = Tokenizer(num_words=20000, oov_token="x")
+tokenizer.word_index = word_index
+
+# Load the classes from JSON files and reconstruct the MultiLabelBinarizer instances
+mlbs_loaded = {}
+
+for key in ["DU", "DS", "OB"]:
+    with open(f"labels/classes_{key}.json", "r") as f:
+        classes = json.load(f)
+
+    # Create a new MultiLabelBinarizer and fit it with the loaded classes
+    mlb = MultiLabelBinarizer()
+    mlb.fit([classes])
+    mlbs_loaded[key] = mlb
 
 
 def prepare_image(image):
@@ -21,10 +51,9 @@ def predict_handle(image_file):
     try:
         # Open the image file
         image = Image.open(io.BytesIO(image_file.read())).convert("RGB")
-        image_pre = prepare_image(image)
-        data = {"instances": image_pre}
-        url = "https://medical-math-models.onrender.com/v1/models/model_paru:predict"
-        response = requests.post(url, json=data)
+        response = requests.post(
+            URL_MODEL_PARU + ":predict", json={"instances": prepare_image(image)}
+        )
 
         if response.status_code != 200:
             return jsonify({"error": "Prediction request failed"}), 500
@@ -67,8 +96,8 @@ def predict_handle(image_file):
         return jsonify({"error": str(e)}), 500
 
 
-@app.route("/predict", methods=["POST"])
-def predict():
+@app.route("/predict_paru", methods=["POST"])
+def predict_paru():
     if "image" not in request.files:
         return jsonify({"error": "No image file in request"}), 400
 
@@ -79,9 +108,95 @@ def predict():
     return predict_handle(image_file)
 
 
+def paragraph_id(data):
+    gender = "Laki-laki" if data["gender"] == "L" else "Perempuan"
+
+    def get_value(key, unit):
+        try:
+            return f"{float(data[key])} {unit}"
+        except (KeyError, ValueError):
+            return "-"
+
+    kalium = get_value("kalium", "mmol/L")
+    natrium = get_value("natrium", "mmol/L")
+    kreatinin = get_value("kreatinin", "mg/dL")
+    pemeriksaan = lambda key: (
+        f"Pemeriksaan {key}: {', '.join(data[key])}." if key in data else ""
+    )
+    HR = f"-" if data["hr"] == "-" else f"{int(data['hr'])} bpm"
+    LVEF = f"-" if data["lvef"] == "-" else f"{float(data['lvef'])}%"
+    paragraf = [
+        f"Seorang pasien {gender} berusia {int(data['usia'])} tahun dengan berat badan {int(data['bb'])} kg dan tinggi badan {int(data['tb'])} cm.",
+        (
+            f"Pasien memiliki keluhan: {data['keluhan']}."
+            if data["keluhan"] != "Tidak ada keluhan"
+            else "Pasien tidak memiliki keluhan."
+        ),
+        f"Hasil pemeriksaan menunjukkan LVEF sebesar {LVEF}.",
+        pemeriksaan("cor"),
+        pemeriksaan("pulmo"),
+        pemeriksaan("abdomen"),
+        pemeriksaan("ext"),
+        pemeriksaan("tambahan") if data.get("tambahan", ["-"])[0] != "-" else "",
+        f"Tekanan darah (TD) pasien adalah {data['td']} mmHg dengan denyut jantung (HR) {HR}.",
+        f"Kadar Kalium {kalium}, Natrium {natrium}, dan Kreatinin {kreatinin}.",
+    ]
+    return " ".join(filter(None, paragraf))
+
+
+def url_and_threshold(key):
+    return {
+        "DU": (
+            URL_MODEL_JANTUNG + "/du:predict",
+            0.2,
+        ),
+        "DS": (
+            URL_MODEL_JANTUNG + "/ds:predict",
+            0.1,
+        ),
+        "OB": (
+            URL_MODEL_JANTUNG + "/ob:predict",
+            0.2,
+        ),
+    }.get(key)
+
+
+def predict_text(texts, key, tokenizer, max_len=128):
+    # Tokenisasi dan padding teks
+    sequences = tokenizer.texts_to_sequences(texts)
+    padded_sequences = pad_sequences(sequences, maxlen=max_len)
+
+    url, threshold = url_and_threshold(key)
+    response = requests.post(url, json={"instances": padded_sequences.tolist()})
+    response.raise_for_status()
+
+    probabilities = response.json()["predictions"][0]
+    return ((np.array(probabilities) > threshold).astype(int)).tolist(), probabilities
+
+
+def transform_label(mlbs, key, label):
+    return list(mlbs[key].inverse_transform(np.array([label]))[0])
+
+
+@app.route("/predict_jantung", methods=["POST"])
+def predict_jantung():
+    data = request.get_json()
+
+    data_paragraph = paragraph_id(data)
+    keys = ["DU", "DS", "OB"]
+
+    data_resp = {}
+    for key in keys:
+        pred, prob = predict_text(data_paragraph, key, tokenizer)
+        label = transform_label(mlbs_loaded, key, pred)
+        data_resp[key] = {"prob":prob, "pred": pred, "label": label}
+
+    return jsonify(data_resp), 200
+
+
 @app.route("/", methods=["GET"])
 def home():
-    return jsonify({"status": "server runing at /predict"}), 200
+    return jsonify({"status": "server runing at /predict_\{}"}), 200
 
 
 if __name__ == "__main__":

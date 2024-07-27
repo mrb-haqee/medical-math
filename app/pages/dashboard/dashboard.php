@@ -24,12 +24,22 @@ include $root . "/pages/dashboard/routes_dashboard.php";
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
     <link href="<?= $root ?>css/styles.css" rel="stylesheet" />
     <!-- <link href="<?= $css_path ?>toast.css" rel="stylesheet" /> -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Chela+One&display=swap');
+
+        .chela-one-regular {
+            font-family: "Chela One", system-ui;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 30px;
+        }
+    </style>
 </head>
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-mrb">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="/dashboard">MEDICAL MATH</a>
+        <a class="navbar-brand ps-3 chela-one-regular" href="/dashboard">MEDICAL MATH</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->

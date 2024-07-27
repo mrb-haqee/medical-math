@@ -27,7 +27,8 @@
 REGISTRY_USERNAME := mrbhaqee
 IMAGE_PYTHON := medical-math-py
 IMAGE_PHP := medical-math-php
-IMAGE_ML := medical-math-models
+IMAGE_PARU := medical-math-model-paru
+IMAGE_JANTUNG := medical-math-model-jantung
 
 # Docker build command
 docker-py:
@@ -36,18 +37,23 @@ docker-py:
 		curl -X GET https://api.render.com/deploy/srv-cqedhvhu0jms7399e80g?key=DK1Eb5MGums
 # docker run -p 5000:5000 mrbhaqee/server-py
 
-docker-ml:
-		docker build -t $(REGISTRY_USERNAME)/$(IMAGE_ML) ./python/model/
-		docker push $(REGISTRY_USERNAME)/$(IMAGE_ML)
-		curl -X GET https://api.render.com/deploy/srv-cqedlc8gph6c73amod7g?key=0j7SbTpUXJs
+docker-paru:
+		docker build -t $(REGISTRY_USERNAME)/$(IMAGE_PARU) ./python/models/model_paru
+		docker push $(REGISTRY_USERNAME)/$(IMAGE_PARU)
+		curl -X GET https://api.render.com/deploy/srv-cqgc95aju9rs73cbcksg?key=Mmn49fPCz5k
+
+docker-jantung:
+		docker build -t $(REGISTRY_USERNAME)/$(IMAGE_JANTUNG) ./python/models/model_jantung
+		docker push $(REGISTRY_USERNAME)/$(IMAGE_JANTUNG)
+		curl -X GET https://api.render.com/deploy/srv-cqgcch5ds78s73ccecjg?key=1ZCBAAzd3oc
 
 docker-php:
 		docker build -t $(REGISTRY_USERNAME)/$(IMAGE_PHP) .
 		docker push $(REGISTRY_USERNAME)/$(IMAGE_PHP)
-		curl -X GET https://api.render.com/deploy/srv-cqedebo8fa8c73e4lt1g?key=Ukr_tQChvF0
+		curl -X GET https://api.render.com/deploy/srv-cqfj21lds78s73bv9iog?key=iF697quK5nU
 
 py-run:
-		python C:\Users\Lenovo\Desktop\devops\python\server\app.py
+		python ./python/server/app.py
 
 php-run:
 		php -S 127.0.0.1:8000 -t ./app/

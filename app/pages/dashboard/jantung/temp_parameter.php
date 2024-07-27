@@ -1,4 +1,4 @@
-<form action="">
+<form id="form-parameter" action="">
 
     <datalist id="datalistcor">
         <option value="S1 S2 Single reguler">
@@ -24,6 +24,7 @@
         <option value="BU (+) Normal">
         <option value="Distensi (-)">
     </datalist>
+
     <datalist id="datalistext">
         <?php
         $options = [
@@ -45,20 +46,20 @@
     </datalist>
 
     <div class="form-floating mb-3">
-        <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+        <textarea name="keluhan" class="form-control" placeholder="Leave a comment here" style="height: 100px"></textarea>
         <label for="floatingTextarea2">Keluhan</label>
     </div>
 
     <div class="d-flex justify-content-between mb-3">
         <div class="form-floating me-2 flex-grow-1">
-            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <input name="td" type="text" class="form-control">
             <label for="floatingInput">Tekanan Darah</label>
             <div id="TD" class="form-text">
                 &nbsp;&nbsp;ex: 120/90
             </div>
         </div>
         <div class="form-floating ms-2 flex-grow-1">
-            <input type="number" class="form-control" id="floatingPassword" placeholder="Password">
+            <input name="hr" type="number" class="form-control">
             <label for="floatingPassword">Detak Jantung</label>
             <div id="HR" class="form-text">
                 &nbsp;&nbsp;HR dalam angka
@@ -68,18 +69,18 @@
 
     <div class="d-flex justify-content-between mb-3">
         <div class="form-floating me-2 flex-grow-1">
-            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com">
+            <input name="kalium" type="text" class="form-control">
             <label for="floatingInput">Kalium</label>
             <div id="TD" class="form-text">
                 &nbsp;&nbsp;put "-" when none
             </div>
         </div>
         <div class="form-floating ms-2 flex-grow-1">
-            <input type="text" class="form-control" id="floatingPassword" placeholder="Password">
+            <input name="natrium" type="text" class="form-control">
             <label for="floatingPassword">Natrium</label>
         </div>
         <div class="form-floating ms-2 flex-grow-1">
-            <input type="text" class="form-control" id="floatingPassword" placeholder="Password">
+            <input name="kreatinin" type="text" class="form-control">
             <label for="floatingPassword">Kreatinin</label>
         </div>
     </div>
@@ -97,7 +98,7 @@
                         <div class="input-group flex-nowrap">
                             <button onclick="add_keluhan('<?= $val; ?>')" class="btn btn-outline-secondary" type="button"><i class="far fa-plus-square"></i></button>
                             <div class="form-floating">
-                                <input class="form-control" list="datalist<?= $val; ?>" id="<?= $val; ?>1" placeholder="Type to search...">
+                                <input name="<?= $val . '1' ?>" class="form-control" list="datalist<?= $val; ?>" id="<?= $val; ?>1" placeholder="Type to search...">
                                 <label for="<?= $val; ?>1"><?= $val; ?> 1</label>
                             </div>
                         </div>
@@ -113,8 +114,8 @@
 
     <div class="text-center">
         <div class="btn-group w-50" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-outline-secondary">Kembali</button>
-            <button type="button" class="btn btn-outline-warning">Summary</button>
+            <button id="btn-j-back-biodata" type="button" class="btn btn-secondary">Kembali</button>
+            <button id="btn-j-summary" type="button" class="btn btn-warning">Summary</button>
         </div>
     </div>
 </form>

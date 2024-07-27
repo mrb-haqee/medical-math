@@ -102,3 +102,32 @@ function sentil_model()
     }
     return 'baik';
 }
+
+function getDataByDiagnosis($diagnoses, $pdo, $only_code = false)
+{
+    $data = [];
+    foreach ($diagnoses as $diagnosis) {
+        $stmt = $pdo->prepare("SELECT kode FROM icd_10_jantung WHERE diagnosis = :diagnosis");
+        $stmt->bindParam(':diagnosis', $diagnosis, \PDO::PARAM_STR);
+        $stmt->execute();
+        $results = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        if ($results) {
+
+            if ($only_code) {
+                if (!in_array($results['kode'], ["D1", "D2", "D3", "D4", "D5"])) {
+                    array_push($data, $results['kode']);
+                } else {
+                    array_push($data, $diagnosis);
+                }
+            } else {
+                if (!in_array($results['kode'], ["D1", "D2", "D3", "D4", "D5"])) {
+                    array_push($data, $results['kode'] . " - " . $diagnosis);
+                } else {
+                    array_push($data, $diagnosis);
+                }
+            }
+        }
+    }
+    return $data;
+}
