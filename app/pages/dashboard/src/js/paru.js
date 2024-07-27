@@ -1,6 +1,3 @@
-// const domain_py = "https://medical-math-py.onrender.com";
-const domain_py = "http://127.0.0.1:5000/";
-
 function get_predict(resp) {
   const { class_label, prediction, predict_label } = resp;
 

@@ -1,7 +1,4 @@
 <?php
-// $_ENV['DB_CONFIG'] = 'do6DJ2xnvzm6fbuW9qVUa90wkJ27cZ3KsMG4m+jnIRZa2Y61Of63LoWQzzB3RD0i0P0+A5Uxy1LdPBkUeZGUjC89iNR9zSl/7YaamSmN+bMb636decJ8iv41i177xDKQDHtH09qAP5o2pzdxrRGBsulTgz5VbmzGXRFAxTeqF/9XQ0BdOC2d7hYmCg7rpZGy==';
-// $_ENV['PASS_ENCRYPT'] = 'mrb28';
-// $_ENV['DB_NAME'] = 'db_paru';
 
 $root = $_SERVER['DOCUMENT_ROOT'];
 
