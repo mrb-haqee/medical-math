@@ -16,7 +16,7 @@ include $root . "/pages/dashboard/routes_dashboard.php";
 
 <head>
 
-    <title>Dashboard</title>
+    <title>Predict Heart</title>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -25,15 +25,16 @@ include $root . "/pages/dashboard/routes_dashboard.php";
     <!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" /> -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
-    <link href="<?= $root ?>css/styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.css" />
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css" />
+    <link href="<?= $root ?>css/styles.css" rel="stylesheet" />
+    <link href="<?= $css_path ?>global.css" rel="stylesheet" />
 </head>
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-mrb">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="/dashboard">MEDICAL MATH</a>
+        <a class="navbar-brand ps-3 judul-medical-math" href="/dashboard">MEDICAL MATH</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
         <!-- Navbar Search-->

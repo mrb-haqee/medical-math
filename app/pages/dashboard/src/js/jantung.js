@@ -1,5 +1,3 @@
-
-
 let counters = {
   cor: 1,
   pulmo: 1,
@@ -17,7 +15,7 @@ function add_keluhan(name) {
     $(targetId).append(`
         <div class="col-md-4">
                 <div class="form-floating">
-                    <input value="123" class="form-control" list="datalist${name}" name="${name}${data}">
+                    <input class="form-control" list="datalist${name}" name="${name}${data}">
                     <label for="${name}${data}">${name} ${data}</label>
                 </div>
         </div>`);
@@ -62,8 +60,9 @@ function parameterConvert(data) {
 }
 
 function get_tabel_predict() {
-  // $("#j-spin-load-tabel").hide();
-  // $("#j-tabel-predict").show();
+  $("#j-spin-load-tabel").show();
+  $("#j-tabel-predict").hide();
+
   $.ajax({
     type: "GET",
     url: "/dashboard/heart/tabel_predict",
@@ -182,6 +181,8 @@ $(document).ready(function () {
     let data = { ...getDataObj(biodata), ...getDataObj(parameter) };
     formData = parameterConvert(data);
 
+    console.log(formData);
+
     $.ajax({
       type: "POST",
       url: "/dashboard/heart/summary",
@@ -263,6 +264,15 @@ $(document).ready(function () {
       data: data_req,
       success: function (resp) {
         get_tabel_predict();
+        formData = "";
+        DataPredcit = "";
+        $("#j-predict-result").hide();
+        $("#j-no-predict-result").show();
+
+        $("#btn-add-data").show();
+        $("#card-biodata").hide();
+        $("#ccard-summary").hide();
+        $("#j-card-predict").hide();
         notif.mynotif.close();
         notif.success("Data berhasil disimpan!", "Success");
       },

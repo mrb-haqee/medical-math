@@ -91,7 +91,7 @@ function merge($dataDB1, $dataDB2)
 
 function sentil_model()
 {
-    $urls = ["https://mrbhaqee-server-py.onrender.com", "https://model-paru.onrender.com/v1/models/model_paru"];
+    $urls = ["https://medical-math-py.onrender.com", "https://medical-math-model-jantung.onrender.com", "https://medical-math-model-paru.onrender.com"];
 
     foreach ($urls as $url) {
         $response = @file_get_contents($url, false);
