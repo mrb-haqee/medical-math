@@ -181,8 +181,6 @@ $(document).ready(function () {
     let data = { ...getDataObj(biodata), ...getDataObj(parameter) };
     formData = parameterConvert(data);
 
-    console.log(formData);
-
     $.ajax({
       type: "POST",
       url: "/dashboard/heart/summary",

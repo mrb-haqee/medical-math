@@ -2,15 +2,33 @@
 
     <datalist id="datalistcor">
         <option value="S1 S2 Single reguler">
+        <option value="S1 S2 Single irregular">
         <option value="murmur (-)">
+        <option value="murmur (+)">
     </datalist>
 
     <datalist id="datalistpulmo">
         <?php
         $options = [
-            "ves" => ["(+/+)", "(++/++)", "(+++/+++)"],
-            "ronkhi" => ["(-/-)", "(--/--)", "(---/---)"],
-            "wheezing" => ["(-/-)", "(--/--)", "(---/---)"]
+            "ronkhi" => [
+                '(+++/+++)', '(++-/++-)', '(++/++)',
+                '(+--/+--)', '(+/+)', '(-++/-++)',
+                '(-++/--+)', '(-+-/-+-)', '(--++/--++)',
+                '(--+/-++)', '(--+/--+)', '(--+/---)',
+                '(---/--+)', '(---/---)', '(--/--)',
+                '(-/-)', '(-/---)', '(-+/--+)'
+            ],
+            "ves" => [
+                '(+++/+++)',
+                '(+++/---)', '(++-/+++)', '(++-/++-)', '(++/++)',
+                '(+--/+++)', '(+/+)', '(---/+++)', '(-/-)'
+            ],
+            "wheezing" => [
+                '(+++/+++)', '(+-/+-)', '(+/+)',
+                '(-++/-++)', '(-+/-+)', '(----/---)',
+                '(---/--)', '(---/---)', '(--/--)',
+                '(--/---)', '(-/-)', '(--/---)'
+            ]
         ];
         foreach ($options as $key => $values) {
             foreach ($values as $value) {
@@ -21,17 +39,33 @@
     </datalist>
 
     <datalist id="datalistabdomen">
-        <option value="BU (+) Normal">
-        <option value="Distensi (-)">
+        <?php
+        $abdomen = [
+            'bu (+)', 'bu (+) menurun', 'bu (+) normal', 'distensi (+)',
+            'distensi (-)', 'nyeri tekan (-)', 'supel (+)'
+        ];
+        foreach ($abdomen as $value) {
+            echo "<option value=\"$value\"></option>";
+        }
+        ?>
     </datalist>
 
     <datalist id="datalistext">
         <?php
-        $options = [
-            "hangat" => ["(+/+)", "(++/++)", "(+++/+++)"],
-            "edema" => ["(-/-)", "(--/--)", "(---/---)"],
+        $ext = [
+            "dingin" => ['(++/++)'],
+            "hangat" => [
+                '(++/++)', '(+/+)', '(--/--)',
+                '(-/-)'
+            ],
+            "edema" => [
+                '(++/++)', '(++/-+)',
+                '(+/+)', '(-+/-+)', '(-+/--)', '(--+/--+)',
+                '(--/++)', '(--/--)', '(--/---)', '(-/+)',
+                '(-/-)'
+            ],
         ];
-        foreach ($options as $key => $values) {
+        foreach ($ext as $key => $values) {
             foreach ($values as $value) {
                 echo "<option value=\"$key $value\"></option>";
             }
@@ -40,9 +74,18 @@
     </datalist>
 
     <datalist id="datalisttambahan">
-        <option value="DOE (+)">
-        <option value="PND (-)">
-        <option value="orthopnea (-)">
+        <?php
+        $tambahan = [
+            'doe (+)', 'doe (-)', 'edema (+)', 'edema (-)',
+            'kaki bengkak (+)', 'kaki bengkak (-)', 'orthopnea (+)',
+            'orthopnea (-)', 'orthopneu (+)', 'orthopneu (-)', 'orthopnoe (+)',
+            'ortopneu (+)', 'ortopneu (-)', 'pnd (+)', 'pnd (-)',
+            'skrotum bengkak (+)'
+        ];
+        foreach ($tambahan as $value) {
+            echo "<option value=\"$value\"></option>";
+        }
+        ?>
     </datalist>
 
     <div class="form-floating mb-3">

@@ -35,7 +35,7 @@ docker-py:
 		docker build -t $(REGISTRY_USERNAME)/$(IMAGE_PYTHON) ./python/server/
 		docker push $(REGISTRY_USERNAME)/$(IMAGE_PYTHON)
 		curl -X GET https://api.render.com/deploy/srv-cqedhvhu0jms7399e80g?key=DK1Eb5MGums
-# docker run -p 5000:5000 mrbhaqee/server-py
+# docker run -p 5000:5000 $(REGISTRY_USERNAME)/$(IMAGE_PYTHON)
 
 docker-paru:
 		docker build -t $(REGISTRY_USERNAME)/$(IMAGE_PARU) ./python/models/model_paru

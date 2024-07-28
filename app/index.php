@@ -1,6 +1,7 @@
 <?php
 
 
+
 $root = $_SERVER['DOCUMENT_ROOT'];
 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
