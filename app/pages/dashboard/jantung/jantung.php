@@ -1,93 +1,23 @@
 <?php
-$root = $_SERVER['DOCUMENT_ROOT'];
-require_once($root . '/helper/helper.php');
-
-use function Helper\{get_session};
-
-get_session();
-
-include $root . "/pages/dashboard/routes_dashboard.php";
-
-
+include "./pages/dashboard/routes_dashboard.php";
+include $root_dashboard_template . '/sidebar.php'
 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <title>Predict Heart</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" /> -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.css" />
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css" />
-    <link href="<?= $root ?>css/styles.css" rel="stylesheet" />
-    <link href="<?= $css_path ?>global.css" rel="stylesheet" />
+    <?php include $root_dashboard_template . '/head_config.php' ?>
 </head>
 
 <body class="sb-nav-fixed">
-    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-mrb">
-        <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3 judul-medical-math" href="/dashboard">MEDICAL MATH</a>
-        <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-        <!-- Navbar Search-->
-        <div class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-        </div>
-        <!-- Navbar-->
-    </nav>
+    <?php include $root_dashboard_template . '/nav.php' ?>
+
     <div id="layoutSidenav">
+
         <!-- Slide Nav -->
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="<?= $routes['dashboard']; ?>">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
-                        </a>
-                        <div class="sb-sidenav-menu-heading">artificial intelligence</div>
-                        <a class="nav-link active" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="true" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-brain"></i></div>
-                            Machine Learning
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse show" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link " href="<?= $routes['paru']; ?>">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-lungs"></i></div>
-                                    Predict Lungs
-                                </a>
-                                <a class="nav-link active" href="<?= $routes['jantung']; ?>">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-heartbeat"></i></div>
-                                    Predict Heart
-                                </a>
-                                <a class="nav-link" href="<?= $routes['none']; ?>">
-                                    <div class="sb-nav-link-icon"><i class="fas fa-weight"></i></div>
-                                    Predict BMI
-                                </a>
-                            </nav>
-                        </div>
-                        <div class="sb-sidenav-menu-heading">About</div>
-                        <a class="nav-link" href="#">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Project Documentation
-                        </a>
-                    </div>
-                </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as: <?= $_SESSION['email'] ?></div>
-                    MEDICAL MATH
-                </div>
-            </nav>
-        </div>
+        <?= sidebar($routes, jantung: true) ?>
 
         <div id="layoutSidenav_content">
             <main>
@@ -240,19 +170,17 @@ include $root . "/pages/dashboard/routes_dashboard.php";
             </footer>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-notify@1.0.4/dist/simple-notify.min.js"></script>
-    <script src="<?= $root ?>js/scripts.js"></script>
-    <script src="<?= $root ?>assets/demo/chart-area-demo.js"></script>
-    <script src="<?= $root ?>assets/demo/chart-bar-demo.js"></script>
-    <script src="<?= $root ?>js/datatables-simple-demo.js"></script>
-    <script src="<?= $js_path ?>config.js"></script>
-    <script src="<?= $js_path ?>jantung.js"></script>
+    <?php include $root_dashboard_template . '/foot_config.php'; ?>
+    <script src="<?= $root_dashboard_src_js ?>/jantung.js"></script>
+    <script>
+        $(document).ready(function() {
+            <?php if ($_SESSION['sapa'] == "sapaoi") : ?>
+                notif.success('Hi, <?= $_SESSION['email'] ?>')
+            <?php
+                $_SESSION['sapa'] = "sudah";
+            endif; ?>
+        })
+    </script>
 </body>
 
 </html>

@@ -22,6 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->execute([':username' => $username, ':email' => $email, ':password' => $password]);
 
             $_SESSION['email'] = $email;
+            $_SESSION['sapa'] = 'sapaoi';
             $_SESSION['login'] = "Berhasil Login!";
             echo feedback('sukses', "Berhasil Login!");
         } catch (PDOException $e) {
@@ -44,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo feedback('error', "Password Salah!");
             } else {
                 $_SESSION['email'] = $email;
+                $_SESSION['sapa'] = 'sapaoi';
                 $_SESSION['login'] = "Berhasil Login!";
                 echo feedback('sukses', "Berhasil Login!");
             }

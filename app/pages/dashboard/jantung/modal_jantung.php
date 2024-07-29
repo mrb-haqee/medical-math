@@ -6,7 +6,7 @@ require_once($root . '/helper/pdo.php');
 
 use function Helper\{feedback, get_session, get_pdo, getDataByDiagnosis};
 
-// get_session();
+get_session();
 $pdo = get_pdo();
 
 

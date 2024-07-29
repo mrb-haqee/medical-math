@@ -1,7 +1,5 @@
 <?php
 
-
-
 $root = $_SERVER['DOCUMENT_ROOT'];
 
 if (isset($_SERVER['HTTP_ORIGIN'])) {
@@ -15,7 +13,7 @@ require_once($root . '/helper/helper.php');
 
 use function Helper\{get_pdo, sentil_model};
 
-sentil_model();
+// sentil_model();
 
 try {
     $pdo = get_pdo();
@@ -27,7 +25,7 @@ try {
         // auth
         "/auth" => $root . "/pages/auth/auth.php",
         "/auth_process" => $root . "/pages/auth/auth_process.php",
-        "/logout" => $root . "/pages/dashboard/logout.php",
+        "/logout" => $root . "/pages/auth/logout.php",
 
         // dashboard
         "/dashboard" => $root . "/pages/dashboard/dashboard.php",
@@ -37,6 +35,8 @@ try {
         "/icd10" => $root . "/pages/dashboard/paru/get_icd10.php",
         "/tabel_predict" => $root . "/pages/dashboard/paru/tabel_predict.php",
         "/save_predict" => $root . "/pages/dashboard/paru/save_predict.php",
+        "/dashboard/lungs/save_image" => $root . "/pages/dashboard/paru/save_image.php",
+        "/dashboard/lungs/modal" => $root . "/pages/dashboard/paru/modal_paru.php",
 
         // predict jantung
         "/dashboard/heart" => $root . "/pages/dashboard/jantung/jantung.php",

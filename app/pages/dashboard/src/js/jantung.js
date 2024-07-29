@@ -89,7 +89,7 @@ var DataPredcit;
 
 $(document).ready(function () {
   get_tabel_predict();
-  const notif = new NotifMRB();
+  // const notif = new NotifMRB();
 
   $("#btn-add-data").click(() => {
     $("#btn-add-data").hide();

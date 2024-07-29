@@ -13,7 +13,6 @@ function get_session()
 
     // Memeriksa apakah sesi 'email' ada
     if (!isset($_SESSION['email'])) {
-        // Jika tidak ada, arahkan ke halaman otentikasi
         header("Location: /auth");
         exit(); // Hentikan eksekusi skrip lebih lanjut
     }

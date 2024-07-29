@@ -69,8 +69,34 @@ function showSec(show, hide) {
   $(hide).hide();
 }
 
+async function convertToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      resolve(reader.result);
+    };
+
+    reader.onerror = (error) => {
+      reject(error);
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+async function processImage(g_imageFile) {
+  try {
+    image_b64 = await convertToBase64(g_imageFile);
+    return image_b64;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
 $(document).ready(function () {
   var g_imageFile;
+  let img_base64;
   let resp_predict;
   get_tabel_predict();
 
@@ -81,12 +107,25 @@ $(document).ready(function () {
     g_imageFile = this.files[0];
     if (g_imageFile) {
       const reader = new FileReader();
-      reader.onload = (e) =>
+      reader.onload = (e) => {
         $("#image-display img").attr("src", e.target.result);
+      };
       reader.readAsDataURL(g_imageFile);
 
       showSec("#image-sec", "#upload-sec");
     }
+    let formData = new FormData();
+    formData.append("image", g_imageFile);
+    $.ajax({
+      type: "POST",
+      url: "/dashboard/lungs/save_image",
+      data: formData,
+      processData: false, // Jangan proses data
+      contentType: false, // Jangan set contentType
+      success: function (resp) {
+        console.log(resp);
+      },
+    });
   });
 
   $(".del-img").click(() => {
@@ -99,10 +138,7 @@ $(document).ready(function () {
     let formData = new FormData();
     formData.append("image", g_imageFile);
 
-    toastr.options.timeOut = false;
-    var loadingToast = toastr.info(
-      '<div class="spinner-border spinner-border-sm" role="status"></div>&nbsp;Memproses...'
-    );
+    notif.loading("Predict data", "Loading...");
 
     $.ajax({
       type: "POST",
@@ -121,21 +157,19 @@ $(document).ready(function () {
         $.ajax({
           type: "POST",
           url: "/icd10",
-          data: { label: predict_label },
+          data: { label: predict_label, action: "tabel" },
           success: function (resp) {
             $("#predict-icd10").html(resp);
 
             showSec("#predict", "#no-predict");
             showSec("", "#image-sec");
 
-            toastr.clear(loadingToast);
-            toastr.options.timeOut = "5000";
-            toastr.success("Berhasil Predict");
+            notif.mynotif.close();
+            notif.success("Berhasil Predict", "Success");
           },
           error: function (error) {
             let err = error.responseJSON;
-            console.error("AJAX Error:", err.error);
-            toastr.error("Error");
+            notif.error(err.error, "Error");
           },
         });
       },
@@ -159,27 +193,39 @@ $(document).ready(function () {
     let { class_labels, prediction, predict_label, sortedPredict } =
       get_predict(resp_predict);
 
-    toastr.options.timeOut = false;
-    var loadingToast = toastr.info(
-      '<div class="spinner-border spinner-border-sm" role="status"></div>&nbsp;Menyimpan...'
-    );
+    notif.loading("Menyimpan data", "Loading...");
+
+    let formData = new FormData();
+    formData.append("image", g_imageFile);
 
     $.ajax({
       type: "POST",
       url: "/save_predict",
       data: {
+        action: "predict",
         predict_label: predict_label,
         sortedPredict: sortedPredict,
       },
-      success: function (resp) {
+      success: function (resps) {
+        console.log(resps);
+        $.ajax({
+          type: "POST",
+          url: "/dashboard/lungs/save_image",
+          data: formData,
+          processData: false, // Jangan proses data
+          contentType: false, // Jangan set contentType
+          success: function (resp) {
+            console.log(resp);
+          },
+        });
+
         showSec("#upload-sec", "#predict");
         showSec("#no-predict", "#image-sec");
 
         get_tabel_predict();
 
-        toastr.clear(loadingToast);
-        toastr.options.timeOut = "5000";
-        toastr.success("Berhasil Menyimpan");
+        notif.mynotif.close();
+        notif.success("Berhasil Menyimpan", "Success");
       },
       error: function (error) {
         let err = error.responseJSON;
@@ -187,14 +233,38 @@ $(document).ready(function () {
       },
     });
   });
-  $("#logout").click(() => {
+
+  $(document).on("click", ".btn-p-view", function (e) {
+    e.preventDefault();
+    var id = $(this).closest("tr").data("id");
+    notif.loading("Get image", "Loading...");
+
     $.ajax({
-      type: "GET",
-      url: "/logout",
-      success: function (resp) {},
-      error: function (error) {
-        let err = error.responseJSON;
-        console.error("AJAX Error:", err.error);
+      type: "POST",
+      url: "/dashboard/lungs/modal",
+      data: { action: "image", id: id },
+      success: function (resp) {
+        console.log(resp);
+        $("#p-modal").modal("show");
+        $("#p-modal-content").html(resp);
+        notif.mynotif.close();
+      },
+    });
+  });
+  $(document).on("click", ".btn-p-icd10", function (e) {
+    e.preventDefault();
+    var label = $(this).data("label");
+    notif.loading("Get data", "Loading...");
+
+    $.ajax({
+      type: "POST",
+      url: "/icd10",
+      data: { label: label, action: "modal" },
+      success: function (resp) {
+        console.log(resp);
+        $("#p-modal").modal("show");
+        $("#p-modal-content").html(resp);
+        notif.mynotif.close();
       },
     });
   });

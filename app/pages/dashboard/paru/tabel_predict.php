@@ -7,6 +7,8 @@ require_once($root . '/helper/pdo.php');
 
 use function Helper\{feedback, get_session, get_data_ICD, get_pdo};
 
+get_session();
+
 function badge($prob)
 {
     if ($prob < 0.3) {
@@ -23,7 +25,8 @@ try {
     $pdo = get_pdo();
 
     // Menyiapkan statement SQL untuk mengambil data
-    $stmt = $pdo->prepare("SELECT * FROM data_predict ORDER BY date DESC");
+    $stmt = $pdo->prepare("SELECT * FROM data_predict WHERE email = :email ORDER BY date DESC");
+    $stmt->bindParam(':email', $_SESSION['email'], PDO::PARAM_STR);
     $stmt->execute();
     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -39,7 +42,7 @@ try {
 ?>
         <tr data-id="<?= $data['id'] ?>">
             <td scope="row"><?= $data['email'] ?></td>
-            <td><a href="#">view</a></td>
+            <td><a href="#<?= $data['id'] ?>" class="btn-p-view" style="font-size: x-large;"><i class="far fa-image"></i></a></td>
             <td class="text-center">
                 <button class="btn row row-cols-1 row-cols-sm-1 row-cols-xl-4">
                     <?php foreach ($prediction as $pred) : ?>
@@ -51,7 +54,7 @@ try {
                 <?php foreach ($icd10 as $item) {
                     echo $item['kode'] . ", ";
                 } ?>
-                <a href="#tabel-predict">...more</a>
+                <a href="#tabel-predict" class="btn-p-icd10" data-label='<?= $data['label'] ?>'><i class="fas fa-search-plus"></i></a>
             </td>
             <td><?= $data['date'] ?></td>
         </tr>

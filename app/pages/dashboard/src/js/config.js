@@ -1,5 +1,5 @@
-const domain_py = "https://medical-math-py.onrender.com";
-// const domain_py = "http://127.0.0.1:5000";
+// const domain_py = "https://medical-math-py.onrender.com";
+const domain_py = "http://127.0.0.1:5000";
 
 var opsi = {
   scales: {
@@ -26,25 +26,6 @@ var defaultColors = [
   "rgba(54, 162, 235, 0.8)",
   "rgba(255, 206, 86, 0.8)",
 ];
-
-toastr.options = {
-  closeButton: true,
-  debug: true,
-  newestOnTop: true,
-  progressBar: true,
-  positionClass: "toast-top-right",
-  preventDuplicates: false,
-  onclick: true,
-  showDuration: "300",
-  hideDuration: "1000",
-  timeOut: "5000",
-  extendedTimeOut: "1000",
-  showEasing: "swing",
-  hideEasing: "linear",
-  showMethod: "fadeIn",
-  hideMethod: "fadeOut",
-};
-
 class NotifMRB {
   constructor(options) {
     this.mynotif;
@@ -93,3 +74,17 @@ class NotifMRB {
     this.mynotif.close();
   }
 }
+
+const notif = new NotifMRB();
+$(document).ready(function () {
+  if ($("#sidebarToggle").length) {
+    $("#sidebarToggle").on("click", function (event) {
+      event.preventDefault();
+      $("body").toggleClass("sb-sidenav-toggled");
+      localStorage.setItem(
+        "sb|sidebar-toggle",
+        $("body").hasClass("sb-sidenav-toggled")
+      );
+    });
+  }
+});
